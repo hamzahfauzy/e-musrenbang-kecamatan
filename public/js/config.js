@@ -11,6 +11,9 @@ var config = {
 	getLinkCetakUsulanPokir: () => {
 		return window.config.getApiUrl() + 'api/cetak-rekapitulasi&token=';
 	},
+	getLinkCetakUsulanDesa: () => {
+		return window.config.getApiUrl() + 'api/cetak-rekapitulasi-desa-by-kecamatan&token=';
+	},
 	getLinkCetakAbsensiPokir: () => {
 		return window.config.getApiUrl() + 'api/musrenbang-absensi&token=';
 	},

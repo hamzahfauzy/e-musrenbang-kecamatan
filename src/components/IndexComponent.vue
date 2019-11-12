@@ -214,6 +214,8 @@
 
 				    <!-- Modal body -->
 				    <div class="modal-body">
+				    	<a v-if="listDesa.length" :href="linkCetakUsulanDesa+token" target="_blank" class="btn btn-warning"><i class="fa fa-print"></i> Cetak Rekapitulasi Usulan</a>
+				    	<p></p>
 				    	<div style="max-height:450px;overflow: auto;">
 				    	<span v-if="usulanKelLoading">loading</span>
 				    	<table class="table table-bordered">
@@ -258,6 +260,7 @@
 				    			<td>
 				    				<span class="badge badge-warning" v-if="data.usulan.Status_Pembahasan == 0">Usulan Pembahasan Desa</span>
 					    			<span class="badge badge-success" v-if="data.usulan.Status_Pembahasan == 1">Usulan Pembahasan Kecamatan</span><br>
+					    				<b>{{data.kelurahan.Nm_Kel}} - {{data.lingkungan.Nm_Lingkungan}}</b><br>
 					    				{{data.usulan.Jenis_Usulan}}
 					    			<br>
 					    			<p style="color: #333;font-size: 12px;">{{data.usulan.Nm_Permasalahan}}</p>
@@ -271,7 +274,7 @@
 					    			<center>
 						    			<button v-if="data.musrenbang != undefined && data.musrenbang.Skor == null" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
 						    			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayatDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-history"></i> Riwayat</button>
-						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkas(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
+						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkasDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
 					    			</center>
 				    			</td>
 				    		</tr>
@@ -967,6 +970,7 @@ export default {
 		this.role_name = window.config.getRoleName()
 		this.mediaUrl = window.config.getMediaUrl()
 		this.linkCetakUsulan = window.config.getLinkCetakUsulanPokir()
+		this.linkCetakUsulanDesa = window.config.getLinkCetakUsulanDesa()
 		this.linkCetakAbsensi = window.config.getLinkCetakAbsensiPokir()
 		this.linkBeritaAcara = window.config.getLinkCetakBeritaAcaraPokir()
 		this.linkCetakKamus = window.config.getApiUrl() + 'api/cetak-kamus';
@@ -1236,6 +1240,13 @@ export default {
 	    	let response = await fetch(window.config.getApiUrl()+'api/get-media-musrenbang-kecamatan&id='+id)
 			let data = await response.json()
 			this.berkasUsulanKecamatans = data
+			return data
+	    },
+	    async loadBerkasDesa(id){
+	    	this.id_usulan = id
+	    	let response = await fetch(window.config.getApiUrl()+'api/get-media-musrenbang-desa&id='+id)
+			let data = await response.json()
+			this.berkasUsulans = data
 			return data
 	    },
 	    async loadBerkasKegiatan(){

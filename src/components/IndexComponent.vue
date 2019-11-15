@@ -110,6 +110,10 @@
 				    		Terdapat desa yang belum melaksanakan atau sedang melaksanakan musrenbang.
 				    		<div style="max-height:450px;overflow: auto;">
 						    	<table class="table table-bordered">
+						    		<tr>
+						    			<th>Nama Desa</th>
+						    			<th align="center">Status</th>
+						    		</tr>
 						    		<tr v-for="(desa,index) in listAcaraDesa">
 						    			
 						    			<td>
@@ -272,7 +276,7 @@
 					    			<br>
 					    			<span v-if="data.musrenbang != undefined && data.musrenbang.Skor != null">Skor : {{data.musrenbang.Skor}}</span>
 					    			<center>
-						    			<button v-if="data.musrenbang != undefined && data.musrenbang.Skor == null" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
+						    			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
 						    			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayatDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-history"></i> Riwayat</button>
 						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkasDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
 					    			</center>
@@ -1447,6 +1451,7 @@ export default {
 	    	let response = await fetch(window.config.getApiUrl()+'api/get-acara-desa&Kd_Prov='+this.kelompok.kecamatan.Kd_Prov+'&Kd_Kab='+this.kelompok.kecamatan.Kd_Kab+'&Kd_Kec='+this.kelompok.kecamatan.Kd_Kec)
 			let data = await response.json()
 			var vm = this
+			vm.canStart = true
 			data.forEach(val => {
 				if(val.acara == null || val.acara.Waktu_Selesai == 0)
 				{

@@ -143,7 +143,7 @@
 					   			<span style="color:red;" :class="{'d-none':!errors.Alamat}">Alamat tidak boleh kosong!</span>
 					   		</div>
 					   		<div class="form-group">
-					   			<label>Nama Pimpinan Kecamatan</label>
+					   			<label>Nama Camat</label>
 					    		<input type="text" class="form-control" v-model="infoMusrenbang.Nama_Pejabat" :disabled="acara.status > 0">
 					    		<span style="color:red;" :class="{'d-none':!errors.Nama_Pejabat}">Nama Kepala Desa/Lurah tidak boleh kosong!</span>
 					    	</div>
@@ -260,10 +260,15 @@
 				    		</center>
 				    	<table class="table table-bordered">
 				    		<tr v-for="(data,index) in listUsulanDesa">
-				    			
 				    			<td>
-				    				<span class="badge badge-warning" v-if="data.usulan.Status_Pembahasan == 0">Usulan Pembahasan Desa</span>
-					    			<span class="badge badge-success" v-if="data.usulan.Status_Pembahasan == 1">Usulan Pembahasan Kecamatan</span><br>
+				    				<div v-if="data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 1">
+					    				<span class="badge badge-primary">Usulan Dikirim Ke OPD</span><br>
+					    			</div>
+					    			<div v-else>
+				    					<span class="badge badge-warning" v-if="data.usulan.Status_Pembahasan == 0">Usulan Pembahasan Desa</span>
+					    				<span class="badge badge-success" v-if="data.usulan.Status_Pembahasan == 1">Usulan Pembahasan Kecamatan</span><br>
+					    			</div>
+
 					    				<b>{{data.kelurahan.Nm_Kel}} - {{data.lingkungan.Nm_Lingkungan}}</b><br>
 					    				{{data.usulan.Jenis_Usulan}}
 					    			<br>
@@ -276,7 +281,8 @@
 					    			<br>
 					    			<span v-if="data.musrenbang != undefined && data.musrenbang.Skor != null">Skor : {{data.musrenbang.Skor}}</span>
 					    			<center>
-						    			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
+						    			<button class="btn btn-sm btn-secondary" v-if="acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Skor != null && data.musrenbang.Status_Penerimaan_Kecamatan == 0" @click="teruskanUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-arrow-right"></i> Teruskan Usulan</button>
+						    			<button class="btn btn-sm btn-primary" v-if="data.musrenbang == undefined || (data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
 						    			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayatDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-history"></i> Riwayat</button>
 						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkasDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
 					    			</center>
@@ -1348,6 +1354,48 @@ export default {
 			  }
 			})
 	    	
+	    },
+	    teruskanUsulan(id){
+	    	var vm = this
+			Swal.fire({
+			  title: 'Konfirmasi ?',
+			  text: "Apakah anda yakin meneruskan usulan ini ke OPD?",
+			  type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Ya, Teruskan Usulan!'
+			}).then((result) => {
+			  if (result.value) {
+			    fetch(window.config.getApiUrl()+'api/teruskan-usulan-musrenbang-desa-by-kecamatan',{
+		    		method:'POST',
+		    		body:JSON.stringify({id:id,token:this.token})
+		    	})
+		    	.then(res => res.json())
+		    	.then(res => {
+		    		if(res.status == 'success')
+			    	{
+			    		if(res.usulan.Kd_Asal_Usulan == 2)
+			    			vm.lihatUsulanDesa(res.usulan.Kd_Prov,res.usulan.Kd_Kab,res.usulan.Kd_Kec,res.usulan.Kd_Kel,res.usulan.Kd_Urut_Kel)
+			    		else
+			    			vm.loadDataUsulan()
+			    		Swal.fire(
+						  'Berhasil!',
+						  'Usulan berhasil di teruskan!',
+						  'success'
+						)
+			    	}
+			    	else
+			    	{
+			    		Swal.fire(
+						  'Gagal!',
+						  'Usulan gagal di teruskan!',
+						  'fail'
+						)
+			    	}
+		    	})
+			  }
+			})
 	    },
 	    deleteMedia(id){
 	    	var vm = this

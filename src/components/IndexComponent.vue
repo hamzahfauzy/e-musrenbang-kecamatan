@@ -428,7 +428,7 @@
 					    				<br>
 					    				<span v-if="data.usulan.Skor != null">Skor : {{data.usulan.Skor}}</span>
 					    				<center>
-					    					<button class="btn btn-sm btn-primary" v-if="data.usulan.Skor == null" data-toggle="modal" data-target="#modalSkoring" @click="skoring(data.usulan.id)"><i class="fa fa-calculator"></i> Skoring</button>
+					    					<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalSkoring" @click="skoring(data.usulan.id)"><i class="fa fa-calculator"></i> Skoring</button>
 						    				<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayat(data.usulan.id)"><i class="fa fa-history"></i> Riwayat</button>
 						    				<button class="btn btn-sm btn-primary" v-if="acara.status == 1" data-toggle="modal" data-target="#modalEditUsulan" @click="editUsulan(data.usulan.id)"><i class="fa fa-pencil"></i> Edit</button>
 						    				<button class="btn btn-sm btn-danger" v-if="acara.status == 1" @click="deleteUsulan(data.usulan.id)"><i class="fa fa-trash"></i> Hapus</button>

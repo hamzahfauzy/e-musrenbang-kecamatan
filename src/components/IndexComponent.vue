@@ -264,7 +264,7 @@
 				    				<div v-if="data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 1">
 					    				<span class="badge badge-primary">Usulan Dikirim Ke OPD</span><br>
 					    			</div>
-					    			<div v-else-if="data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 2">
+					    			<div v-else-if="data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 3">
 				    					<span class="badge badge-danger">Usulan Di Tolak</span>
 					    			</div>
 					    			<div v-else>
@@ -406,7 +406,7 @@
 
 				    <!-- Modal body -->
 				    <div class="modal-body">
-				    	<div v-if="kamusUsulan.nama_kamus">
+				    	<div>
 					    	<h5>Usulan yang akan di tolak</h5>
 					    	<table class="table table-bordered" v-if="usulanDesa.usulan != undefined">
 					    		<tr>

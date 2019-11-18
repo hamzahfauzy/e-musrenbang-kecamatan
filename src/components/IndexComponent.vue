@@ -436,7 +436,7 @@
 
 				    <!-- Modal footer -->
 				    <div class="modal-footer">
-				    	<button class="btn btn-primary" @click="tolakUsulan()">Usulkan</button>
+				    	<button class="btn btn-primary" @click="tolakUsulan()">Tolak</button>
 				    	<button type="button" class="btn btn-danger btn-tolak" data-dismiss="modal">Close</button>
 				    </div>
 				</div>
@@ -1595,7 +1595,7 @@ export default {
 			let dataUsulanDesa = await usulanDesa.json()
 			this.usulanDesa = dataUsulanDesa
 			this.id_usulan = id
-			return data
+			return dataUsulanDesa
 	    },
 	    async showModalMulai(){
 	    	let response = await fetch(window.config.getApiUrl()+'api/get-acara-desa&Kd_Prov='+this.kelompok.kecamatan.Kd_Prov+'&Kd_Kab='+this.kelompok.kecamatan.Kd_Kab+'&Kd_Kec='+this.kelompok.kecamatan.Kd_Kec)

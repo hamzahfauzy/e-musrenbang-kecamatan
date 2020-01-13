@@ -260,7 +260,7 @@
 				    		</center>
 				    	<table class="table table-bordered">
 				    		<tr v-for="(data,index) in listUsulanDesa">
-				    			<td>
+				    			<td v-if="data.musrenbang != undefined">
 				    				<div v-if="data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 1">
 					    				<span class="badge badge-primary">Usulan Dikirim Ke OPD</span><br>
 					    			</div>
@@ -273,7 +273,31 @@
 					    			</div>
 
 					    				<b>{{data.kelurahan.Nm_Kel}} - {{data.lingkungan.Nm_Lingkungan}}</b><br>
-					    				{{data.usulan.Jenis_Usulan}}
+					    				{{data.musrenbang.Jenis_Usulan}}
+					    			<br>
+					    			<p style="color: #333;font-size: 12px;">{{data.musrenbang.Nm_Permasalahan}}</p>
+					    			<p style="color: #333;font-size: 12px;">{{data.musrenbang.Detail_Lokasi}} - {{data.kecamatan.Nm_Kec}}</p>
+					    				
+					    				Rp. {{data.musrenbang.Harga_Total.toLocaleString()}} / {{data.musrenbang.Jumlah}} {{data.musrenbang.Uraian}}
+					    			<br>
+					    			<b>{{data.refSubUnit.Nm_Sub_Unit}}</b>
+					    			<br>
+					    			<span v-if="data.musrenbang != undefined && data.musrenbang.Skor != null">Skor : {{data.musrenbang.Skor}}</span>
+					    			<center>
+						    			<button class="btn btn-sm btn-secondary" v-if="acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Skor != null && data.musrenbang.Status_Penerimaan_Kecamatan == 0" @click="teruskanUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-arrow-right"></i> Teruskan Usulan</button>
+						    			<button class="btn btn-sm btn-danger" v-if="(data.musrenbang == undefined) || (data.musrenbang.Status_Penerimaan_Kecamatan == 0 && data.musrenbang.Skor == null)" data-toggle="modal" data-target="#modalTolak" @click="setTolakUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-times"></i> Tolak</button>
+						    			<button class="btn btn-sm btn-primary" v-if="data.musrenbang == undefined || (data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
+						    			<button class="btn btn-sm btn-default" v-if="(acara.status == 1 && data.musrenbang == undefined) || (acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" style="border:1px solid #333" data-toggle="modal" data-target="#modalFormUsulanDesa" @click="loadUsulanDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-pencil"></i> Revisi</button>
+						    			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayatDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-history"></i> Riwayat</button>
+						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkasDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
+					    			</center>
+				    			</td>
+				    			<td v-else>
+				    				<span class="badge badge-warning" v-if="data.usulan.Status_Pembahasan == 0">Usulan Pembahasan Desa</span>
+					    			<span class="badge badge-success" v-if="data.usulan.Status_Pembahasan == 1">Usulan Pembahasan Kecamatan</span><br>
+
+					    			<b>{{data.kelurahan.Nm_Kel}} - {{data.lingkungan.Nm_Lingkungan}}</b><br>
+					    			{{data.usulan.Jenis_Usulan}}
 					    			<br>
 					    			<p style="color: #333;font-size: 12px;">{{data.usulan.Nm_Permasalahan}}</p>
 					    			<p style="color: #333;font-size: 12px;">{{data.usulan.Detail_Lokasi}} - {{data.kecamatan.Nm_Kec}}</p>
@@ -282,11 +306,11 @@
 					    			<br>
 					    			<b>{{data.refSubUnit.Nm_Sub_Unit}}</b>
 					    			<br>
-					    			<span v-if="data.musrenbang != undefined && data.musrenbang.Skor != null">Skor : {{data.musrenbang.Skor}}</span>
 					    			<center>
 						    			<button class="btn btn-sm btn-secondary" v-if="acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Skor != null && data.musrenbang.Status_Penerimaan_Kecamatan == 0" @click="teruskanUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-arrow-right"></i> Teruskan Usulan</button>
-						    			<button class="btn btn-sm btn-danger" v-if="data.musrenbang == undefined" data-toggle="modal" data-target="#modalTolak" @click="setTolakUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-times"></i> Tolak</button>
+						    			<button class="btn btn-sm btn-danger" v-if="(data.musrenbang == undefined) || (data.musrenbang.Status_Penerimaan_Kecamatan == 0 && data.musrenbang.Skor == null)" data-toggle="modal" data-target="#modalTolak" @click="setTolakUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-times"></i> Tolak</button>
 						    			<button class="btn btn-sm btn-primary" v-if="data.musrenbang == undefined || (data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
+						    			<button class="btn btn-sm btn-default" v-if="(acara.status == 1 && data.musrenbang == undefined) || (acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" style="border:1px solid #333" data-toggle="modal" data-target="#modalFormUsulanDesa" @click="loadUsulanDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-pencil"></i> Revisi</button>
 						    			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayatDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-history"></i> Riwayat</button>
 						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkasDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
 					    			</center>
@@ -389,6 +413,91 @@
 				    <!-- Modal footer -->
 				    <div class="modal-footer">
 				    	<button class="btn btn-primary" @click="sendUsulan()">Usulkan</button>
+				    	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalFormUsulanDesa">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content no-border-radius">
+					<!-- Modal Header -->
+					<div class="modal-header">
+				        <h4 class="modal-title">Form Revisi Usulan Desa</h4>
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				    </div>
+
+				    <!-- Modal body -->
+				    <div class="modal-body">
+				    	<div v-if="kamusUsulan.nama_kamus">
+					    	<h5>Yang akan diusulkan</h5>
+					    	<table class="table table-bordered">
+					    		<tr>
+					    			<td>
+					    				{{kamusUsulan.nama_kamus}}
+					    				<br>
+					    				<p style="color: #333;font-size: 12px;">{{kamusUsulan.Defenisi_Operasional}}</p>
+					    				
+					    				Rp. {{kamusUsulan.harga_kamus.toLocaleString()}} / {{kamusUsulan.Satuan_Ket}}
+					    				<br>
+					    				<b>{{kamusUsulan.SKPD_Ket}}</b>
+
+					    				<br>
+					    			</td>
+					    		</tr>
+					    	</table>
+
+					    	<h5>Detail Usulan</h5>
+					    	<div class="alert alert-success" role="alert" v-if="usulanSuccessStatus">
+								Revisi Usulan Berhasil Disimpan
+							</div>
+
+							<div class="alert alert-danger" role="alert" v-if="usulanFailStatus">
+								Revisi Usulan Gagal Disimpan
+							</div>
+					    	<div class="form-group">
+					    		<label>Jumlah / Volume (Rp. {{hargaTotal2.toLocaleString()}})</label>
+					    		<input type="tel" class="form-control" v-model="usulan_desa.Jumlah" @keypress="isNumber($event)">
+					    	</div>
+
+					    	<div class="form-group">
+					    		<label>Desa/Kelurahan</label>
+					    		<input type="text" class="form-control" readonly="" :value="usulan_kelurahan.Nm_Kel">
+					    		<!-- <select class="form-control" v-model="usulan.desa" @change="loadDusun()">
+					    			<option v-for="desa in kelompok.kelurahan" :value="desa">{{desa.Kd_Kel == 2 ? 'Desa' : 'Kelurahan'}} {{desa.Nm_Kel}}</option>
+					    		</select> -->
+					    	</div>
+
+					    	<div class="form-group">
+					    		<label>Detail Lokasi</label>
+					    		<textarea class="form-control" v-model="usulan_desa.Detail_Lokasi"></textarea>
+					    	</div>
+
+					    	<div class="form-group">
+					    		<label>Permasalahan</label>
+					    		<textarea class="form-control" v-model="usulan_desa.Nm_Permasalahan"></textarea>
+					    	</div>
+
+					    	<div class="form-group">
+					    		<label>Bidang Pembangunan</label>
+					    		<select class="form-control" v-model="usulan_desa.Kd_Pem" @change="loadRpjmdUsulanDesa()">
+					    			<option v-for="bidang_pembangunan in bidPembangunan" :value="bidang_pembangunan.Kd_Pem">{{bidang_pembangunan.Bidang_Pembangunan}}</option>
+					    		</select>
+					    	</div>
+
+					    	<div class="form-group">
+					    		<label>Prioritas Pembangunan Daerah</label>
+					    		<select class="form-control" v-model="usulan_desa.Kd_Prioritas_Pembangunan_Daerah">
+					    			<option v-for="prioritas_pembangunan in rpjmd" :value="prioritas_pembangunan.Kd_Prioritas_Pembangunan_Kota">{{prioritas_pembangunan.Nm_Prioritas_Pembangunan_Kota}}</option>
+					    		</select>
+					    	</div>
+				    	</div>
+				    </div>
+
+				    <!-- Modal footer -->
+				    <div class="modal-footer">
+				    	<button class="btn btn-primary" @click="revisiUsulan()">Revisi Usulan</button>
 				    	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				    </div>
 				</div>
@@ -975,6 +1084,7 @@ export default {
 			auth:{},
 			noUrut 			:0,
 			id_usulan		:0,
+			id_usulan_desa	:0,
 			canStart		:true,
 			modalMulai		:false,
 			mulaiStatus		:false,
@@ -1002,6 +1112,8 @@ export default {
 			},
 			acara 			:{},
 			usulan 			:{},
+			usulan_desa 	:{},
+			usulan_kelurahan:{},
 			errors 			:{},
 			token 			:'',
 			env 			:'',
@@ -1197,6 +1309,29 @@ export default {
 	    		this.usulanFailStatus = 1
 	    	}
 	    	this.loadDataUsulans()
+	    	var vm = this
+			setTimeout(()=>{
+				vm.usulanSuccessStatus = 0
+				vm.usulanFailStatus = 0
+			},2500)
+	    	return data
+	    },
+	    async revisiUsulan(){
+	    	let response = await fetch(window.config.getApiUrl()+'api/revisi-usulan',{
+	    		method:'POST',
+	    		body:JSON.stringify({id:this.id_usulan_desa,token:this.token,usulan:this.usulan_desa})
+	    	})
+
+	    	let data = await response.json()
+	    	if(data.status == 'success')
+	    	{
+	    		this.usulanSuccessStatus = 1
+	    	}
+	    	else
+	    	{
+	    		this.usulanFailStatus = 1
+	    	}
+	    	this.lihatUsulanDesa(this.usulan_desa.Kd_Prov,this.usulan_desa.Kd_Kab,this.usulan_desa.Kd_Kec,this.usulan_desa.Kd_Kel,this.usulan_desa.Kd_Urut_Kel)
 	    	var vm = this
 			setTimeout(()=>{
 				vm.usulanSuccessStatus = 0
@@ -1654,6 +1789,16 @@ export default {
 			this.loadRpjmd()
 			return data
 		},
+		async loadUsulanDesa(id){
+			this.id_usulan_desa = id
+			let response = await fetch(window.config.getApiUrl()+'api/get-usulan-desa-by-kecamatan&id='+id)
+			let data = await response.json()
+			this.usulan_desa = data.usulan
+			this.kamusUsulan = this.kamusUsulans.find(o => o.kode_kamus === data.usulan.Kd_Kamus_Usulan)
+			this.usulan_kelurahan = data.kelurahan
+			this.loadRpjmdUsulanDesa()
+			return data
+		},
 		async loadAcara()
 		{
 			let response = await fetch(window.config.getApiUrl()+'api/acara-musrenbang&token='+this.token)
@@ -1685,6 +1830,15 @@ export default {
 		async loadRpjmd()
 		{
 			var kd_pem = this.usulan.kd_pem ? this.usulan.kd_pem : this.usulan.Kd_Pem
+			await fetch(window.config.getApiUrl()+'api/rpjmd-by-pembangunan&id='+kd_pem)
+			.then(res=>res.json())
+			.then(res => {
+				this.rpjmd = res
+			});
+		},
+		async loadRpjmdUsulanDesa()
+		{
+			var kd_pem = this.usulan_desa.Kd_Pem
 			await fetch(window.config.getApiUrl()+'api/rpjmd-by-pembangunan&id='+kd_pem)
 			.then(res=>res.json())
 			.then(res => {
@@ -1756,6 +1910,13 @@ export default {
 				harga = this.kamusUsulan.harga_kamus * this.usulan.jumlah
 			if(this.usulan.Jumlah)
 				harga = this.kamusUsulan.harga_kamus * this.usulan.Jumlah
+
+			return harga
+		},
+		hargaTotal2: function() {
+			var harga = 0
+			if(this.usulan_desa.Jumlah)
+				harga = this.kamusUsulan.harga_kamus * this.usulan_desa.Jumlah
 
 			return harga
 		}

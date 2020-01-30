@@ -261,6 +261,7 @@
 				    	<table class="table table-bordered">
 				    		<tr v-for="(data,index) in listUsulanDesa">
 				    			<td v-if="data.musrenbang != undefined">
+				    				AH
 				    				<div v-if="data.musrenbang.Status_Penerimaan_Kecamatan == 1">
 					    				<span class="badge badge-primary">Usulan Dikirim Ke OPD</span><br>
 					    			</div>
@@ -293,6 +294,7 @@
 					    			</center>
 				    			</td>
 				    			<td v-else>
+				    				BEH
 				    				<span class="badge badge-warning" v-if="data.usulan.Status_Pembahasan == 0">Usulan Pembahasan Desa</span>
 					    			<span class="badge badge-success" v-if="data.usulan.Status_Pembahasan == 1">Usulan Pembahasan Kecamatan</span><br>
 

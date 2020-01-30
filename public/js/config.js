@@ -1,9 +1,10 @@
 var config = {
 	getApiUrl: () => {
-		return 'http://eplanning.asahankab.go.id/app-2020/eperencanaan/web/index.php?r=';
+		// return 'http://eplanning.asahankab.go.id/app-2020/eperencanaan/web/index.php?r=';
+		return 'http://eplanning.asahankab.go.id/simulasiv2/eperencanaan/web/index.php?r=';
 	},
 	getMediaUrl: () => {
-		return 'http://eplanning.asahankab.go.id/app-2020/eperencanaan/web/uploads';
+		return 'http://eplanning.asahankab.go.id/simulasiv2/eperencanaan/web/uploads';
 	},
 	getRoleName: () => {
 		return 'Operator_Kecamatan'
@@ -21,8 +22,8 @@ var config = {
 		return window.config.getApiUrl() + 'api/berita-acara&token=';
 	},
 	getEnv: () => {
-		// return 'simulasi'
-		return 'production'
+		return 'simulasi'
+		// return 'production'
 	},
 	getAppName: () => {
 		return 'E-Musrenbang Kecamatan'

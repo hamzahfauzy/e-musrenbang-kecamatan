@@ -261,10 +261,10 @@
 				    	<table class="table table-bordered">
 				    		<tr v-for="(data,index) in listUsulanDesa">
 				    			<td v-if="data.musrenbang != undefined">
-				    				<div v-if="data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 1">
+				    				<div v-if="data.musrenbang.Status_Penerimaan_Kecamatan == 1">
 					    				<span class="badge badge-primary">Usulan Dikirim Ke OPD</span><br>
 					    			</div>
-					    			<div v-else-if="data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 3">
+					    			<div v-else-if="data.musrenbang.Status_Penerimaan_Kecamatan == 3">
 				    					<span class="badge badge-danger">Usulan Di Tolak</span>
 					    			</div>
 					    			<div v-else>
@@ -284,10 +284,10 @@
 					    			<br>
 					    			<span v-if="data.musrenbang != undefined && data.musrenbang.Skor != null">Skor : {{data.musrenbang.Skor}}</span>
 					    			<center>
-						    			<button class="btn btn-sm btn-secondary" v-if="acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Skor != null && data.musrenbang.Status_Penerimaan_Kecamatan == 0" @click="teruskanUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-arrow-right"></i> Teruskan Usulan</button>
-						    			<button class="btn btn-sm btn-danger" v-if="(data.musrenbang == undefined) || (data.musrenbang.Status_Penerimaan_Kecamatan == 0 && data.musrenbang.Skor == null)" data-toggle="modal" data-target="#modalTolak" @click="setTolakUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-times"></i> Tolak</button>
-						    			<button class="btn btn-sm btn-primary" v-if="data.musrenbang == undefined || (data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
-						    			<button class="btn btn-sm btn-default" v-if="(acara.status == 1 && data.musrenbang == undefined) || (acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" style="border:1px solid #333" data-toggle="modal" data-target="#modalFormUsulanDesa" @click="loadUsulanDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-pencil"></i> Revisi</button>
+						    			<button class="btn btn-sm btn-secondary" v-if="acara.status == 1 && data.musrenbang.Skor != null && data.musrenbang.Status_Penerimaan_Kecamatan == 0" @click="teruskanUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-arrow-right"></i> Teruskan Usulan</button>
+						    			<button class="btn btn-sm btn-danger" v-if="acara.status == 1 && data.musrenbang.Status_Penerimaan_Kecamatan == 0 && data.musrenbang.Skor == null" data-toggle="modal" data-target="#modalTolak" @click="setTolakUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-times"></i> Tolak</button>
+						    			<button class="btn btn-sm btn-primary" v-if="acara.status != 2 && data.musrenbang.Status_Penerimaan_Kecamatan == 0" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
+						    			<button class="btn btn-sm btn-default" v-if="acara.status != 2 && data.musrenbang.Status_Penerimaan_Kecamatan == 0" style="border:1px solid #333" data-toggle="modal" data-target="#modalFormUsulanDesa" @click="loadUsulanDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-pencil"></i> Revisi</button>
 						    			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayatDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-history"></i> Riwayat</button>
 						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkasDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
 					    			</center>
@@ -307,10 +307,9 @@
 					    			<b>{{data.refSubUnit.Nm_Sub_Unit}}</b>
 					    			<br>
 					    			<center>
-						    			<button class="btn btn-sm btn-secondary" v-if="acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Skor != null && data.musrenbang.Status_Penerimaan_Kecamatan == 0" @click="teruskanUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-arrow-right"></i> Teruskan Usulan</button>
-						    			<button class="btn btn-sm btn-danger" v-if="(data.musrenbang == undefined) || (data.musrenbang.Status_Penerimaan_Kecamatan == 0 && data.musrenbang.Skor == null)" data-toggle="modal" data-target="#modalTolak" @click="setTolakUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-times"></i> Tolak</button>
-						    			<button class="btn btn-sm btn-primary" v-if="data.musrenbang == undefined || (data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
-						    			<button class="btn btn-sm btn-default" v-if="(acara.status == 1 && data.musrenbang == undefined) || (acara.status == 1 && data.musrenbang != undefined && data.musrenbang.Status_Penerimaan_Kecamatan == 0)" style="border:1px solid #333" data-toggle="modal" data-target="#modalFormUsulanDesa" @click="loadUsulanDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-pencil"></i> Revisi</button>
+						    			<button class="btn btn-sm btn-danger" v-if="acara.status == 1" data-toggle="modal" data-target="#modalTolak" @click="setTolakUsulan(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-times"></i> Tolak</button>
+						    			<button class="btn btn-sm btn-primary" v-if="acara.status != 2" data-toggle="modal" data-target="#modalSkoring" @click="skoringDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-calculator"></i> Skoring</button>
+						    			<button class="btn btn-sm btn-default" v-if="acara.status != 2" style="border:1px solid #333" data-toggle="modal" data-target="#modalFormUsulanDesa" @click="loadUsulanDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-pencil"></i> Revisi</button>
 						    			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalRiwayat" @click="tampilRiwayatDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-history"></i> Riwayat</button>
 						    			<button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalBerkasDesa" @click="loadBerkasDesa(data.usulan.Kd_Ta_Musrenbang_Kelurahan)"><i class="fa fa-file"></i> Berkas</button>
 					    			</center>

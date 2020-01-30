@@ -1,1 +1,1 @@
-<?php header('location:public/'); // a
+<?php header('location:public/'); // oh

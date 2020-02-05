@@ -793,6 +793,10 @@
 				    <!-- Modal body -->
 				    <div class="modal-body">
 				    	<div style="max-height:450px;overflow-x: auto;" class="container">
+				    		<div class="upload-btn-wrapper" style="width: 100%;height: auto;" v-if="acara.status!=2">
+				    			<button class="btn btn-primary btn-block btn-upload" @click="openDokumenUploadDesa()"><i class="fa fa-cloud-upload"></i> Upload Berkas</button>
+				    			<input type="file" multiple="" @change="initFileDesa" accept='image/*' name="dokumen_file_desa" style="height: 0;" />
+				    		</div>
 					    	<div class="row" id="lcl_elems_wrapper">
 					    		<div class="col-sm-12">
 				    				{{uploadingMessage}}
@@ -1268,6 +1272,9 @@ export default {
 	    openDokumenUpload(){
 	    	document.querySelector('input[name=dokumen_file]').click()
 	    },
+	    openDokumenUploadDesa(){
+	    	document.querySelector('input[name=dokumen_file_desa]').click()
+	    },
 	    async sendUsulan(){
 	    	let response = await fetch(window.config.getApiUrl()+'api/simpan-usulan-musrenbang',{
 	    		method:'POST',
@@ -1429,6 +1436,34 @@ export default {
 	    	let data = await response.json()
 	    	this.uploadingMessage = "Berkas berhasil di upload"
 	    	await this.loadBerkas(this.id_usulan)
+	    	var vm = this
+			setTimeout(()=>{
+				this.uploadingMessage = ''
+			},2500)
+	    	return data
+	    },
+	    async initFileDesa(event){
+	    	var files = event.target.files
+	    	if(!files.length)
+	    		return
+	    	this.uploadingMessage = "Uploading..."
+	    	var numOfFile = files.length
+	    	var formData = new FormData();
+	    	for(var i=0;i<numOfFile;i++)
+	    	{
+	    		formData.append('imageFile[]',files[i])
+	    		if(this.fileValidation(files[i]))
+	    			return;
+	    	}
+
+	    	let response = await fetch(window.config.getApiUrl()+'api/upload-berkas-musrenbang&token='+this.token+'&id='+this.id_usulan+'&opt_role=Kecamatan',{
+	    		method:'POST',
+	    		body:formData
+	    	})
+
+	    	let data = await response.json()
+	    	this.uploadingMessage = "Berkas berhasil di upload"
+	    	await this.loadBerkasDesa(this.id_usulan)
 	    	var vm = this
 			setTimeout(()=>{
 				this.uploadingMessage = ''

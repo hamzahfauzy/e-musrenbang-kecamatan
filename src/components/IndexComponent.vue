@@ -443,6 +443,7 @@
 					    				<b>{{kamusUsulan.SKPD_Ket}}</b>
 
 					    				<br>
+					    				<button class="btn btn-success" data-toggle="modal" data-target="#modalKamusEdit" @click="loadKamus()">Ubah</button>
 					    			</td>
 					    		</tr>
 					    	</table>
@@ -504,6 +505,54 @@
 				    <!-- Modal footer -->
 				    <div class="modal-footer">
 				    	<button class="btn btn-primary" @click="revisiUsulan()">Revisi Usulan</button>
+				    	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalKamusEdit">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content no-border-radius">
+					<!-- Modal Header -->
+					<div class="modal-header">
+				        <h4 class="modal-title">Kamus Usulan</h4>
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				    </div>
+
+				    <!-- Modal body -->
+				    <div class="modal-body">
+				    	<a :href="linkCetakKamus" target="_blank" class="btn btn-warning"><i class="fa fa-print"></i> Cetak</a>
+				    	<p></p>
+				    	<div class="form-group">
+				    		<input type="text" class="form-control" placeholder="Cari.." v-model="keyword" v-on:keyup="loadKamus">
+				    	</div>
+				    	<p></p>
+				    	<div style="max-height:450px;overflow: auto;">
+				    	<table class="table table-bordered">
+				    		<tr v-for="(kamus,index) in kamusUsulans">
+				    			
+				    			<td>
+				    				{{kamus.nama_kamus}}
+				    				<br>
+				    				<p style="color: #333;font-size: 12px;">{{kamus.Defenisi_Operasional}}</p>
+				    				
+				    				Rp. {{kamus.harga_kamus.toLocaleString()}} / {{kamus.Satuan_Ket}}
+				    				<br>
+				    				<b>{{kamus.SKPD_Ket}}</b>
+
+				    				<br>
+				    			</td>
+				    			<td align="center" style="vertical-align: middle;">
+				    				<button class="btn btn-success" data-dismiss="modal" @click="setUsulan(kamus)">Usulkan</button>
+				    			</td>
+				    		</tr>
+				    	</table>
+				    	</div>
+				    </div>
+
+				    <!-- Modal footer -->
+				    <div class="modal-footer">
 				    	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				    </div>
 				</div>
@@ -1257,7 +1306,8 @@ export default {
 			})
 		},
 		setUsulan(kamus){
-			this.usulan = {}
+			if(!this.usulan_desa)
+				this.usulan = {}
 			this.kamusUsulan = kamus
 		},
 		isNumber: function(evt) {

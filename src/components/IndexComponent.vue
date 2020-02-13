@@ -469,6 +469,13 @@
 					    	</div>
 
 					    	<div class="form-group">
+					    		<label>Dusun/Lingkungan</label>
+					    		<select class="form-control" v-model="usulan_desa.Kd_Lingkungan">
+					    			<option v-for="lingkungan in listLingkungan" :value="lingkungan.Kd_Lingkungan">{{lingkungan.Nm_Lingkungan}}</option>
+					    		</select>
+					    	</div>
+
+					    	<div class="form-group">
 					    		<label>Detail Lokasi</label>
 					    		<textarea class="form-control" v-model="usulan_desa.Detail_Lokasi"></textarea>
 					    	</div>
@@ -1831,6 +1838,7 @@ export default {
 			this.kamusUsulan = this.kamusUsulans.find(o => o.kode_kamus === data.usulan.Kd_Kamus_Usulan)
 			this.usulan_kelurahan = data.kelurahan
 			this.loadRpjmdUsulanDesa()
+			this.loadDusunEdit()
 			return data
 		},
 		async loadAcara()
@@ -1882,6 +1890,16 @@ export default {
 		async loadDusun()
 		{
 			var desa = this.usulan.desa ? this.usulan.desa : this.usulan.desa
+			
+			await fetch(window.config.getApiUrl()+'api/get-lingkungan-by-kelurahan&Kd_Prov='+desa.Kd_Prov+'&Kd_Kab='+desa.Kd_Kab+'&Kd_Kec='+desa.Kd_Kec+'&Kd_Kel='+desa.Kd_Kel+'&Kd_Urut='+desa.Kd_Urut)
+			.then(res=>res.json())
+			.then(res => {
+				this.listLingkungan = res
+			});
+		},
+		async loadDusunEdit()
+		{
+			var desa = this.usulan_kelurahan
 			
 			await fetch(window.config.getApiUrl()+'api/get-lingkungan-by-kelurahan&Kd_Prov='+desa.Kd_Prov+'&Kd_Kab='+desa.Kd_Kab+'&Kd_Kec='+desa.Kd_Kec+'&Kd_Kel='+desa.Kd_Kel+'&Kd_Urut='+desa.Kd_Urut)
 			.then(res=>res.json())

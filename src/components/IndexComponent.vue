@@ -430,74 +430,76 @@
 				    <!-- Modal body -->
 				    <div class="modal-body">
 				    	<div v-if="kamusUsulan.nama_kamus">
-					    	<h5>Yang akan diusulkan</h5>
-					    	<table class="table table-bordered">
-					    		<tr>
-					    			<td>
-					    				{{kamusUsulan.nama_kamus}}
-					    				<br>
-					    				<p style="color: #333;font-size: 12px;">{{kamusUsulan.Defenisi_Operasional}}</p>
-					    				
-					    				Rp. {{kamusUsulan.harga_kamus.toLocaleString()}} / {{kamusUsulan.Satuan_Ket}}
-					    				<br>
-					    				<b>{{kamusUsulan.SKPD_Ket}}</b>
+				    		<div style="max-height:550px;overflow: auto;">
+						    	<h5>Yang akan diusulkan</h5>
+						    	<table class="table table-bordered">
+						    		<tr>
+						    			<td>
+						    				{{kamusUsulan.nama_kamus}}
+						    				<br>
+						    				<p style="color: #333;font-size: 12px;">{{kamusUsulan.Defenisi_Operasional}}</p>
+						    				
+						    				Rp. {{kamusUsulan.harga_kamus.toLocaleString()}} / {{kamusUsulan.Satuan_Ket}}
+						    				<br>
+						    				<b>{{kamusUsulan.SKPD_Ket}}</b>
 
-					    				<br>
-					    				<button class="btn btn-success" data-toggle="modal" data-target="#modalKamusEdit" @click="loadKamus()">Ubah</button>
-					    			</td>
-					    		</tr>
-					    	</table>
+						    				<br>
+						    				<button class="btn btn-success" data-toggle="modal" data-target="#modalKamusEdit" @click="loadKamus()">Ubah</button>
+						    			</td>
+						    		</tr>
+						    	</table>
 
-					    	<h5>Detail Usulan</h5>
-					    	<div class="alert alert-success" role="alert" v-if="usulanSuccessStatus">
-								Revisi Usulan Berhasil Disimpan
-							</div>
+						    	<h5>Detail Usulan</h5>
+						    	<div class="alert alert-success" role="alert" v-if="usulanSuccessStatus">
+									Revisi Usulan Berhasil Disimpan
+								</div>
 
-							<div class="alert alert-danger" role="alert" v-if="usulanFailStatus">
-								Revisi Usulan Gagal Disimpan
-							</div>
-					    	<div class="form-group">
-					    		<label>Jumlah / Volume (Rp. {{hargaTotal2.toLocaleString()}})</label>
-					    		<input type="tel" class="form-control" v-model="usulan_desa.Jumlah" @keypress="isNumber($event)">
-					    	</div>
+								<div class="alert alert-danger" role="alert" v-if="usulanFailStatus">
+									Revisi Usulan Gagal Disimpan
+								</div>
+						    	<div class="form-group">
+						    		<label>Jumlah / Volume (Rp. {{hargaTotal2.toLocaleString()}})</label>
+						    		<input type="tel" class="form-control" v-model="usulan_desa.Jumlah" @keypress="isNumber($event)">
+						    	</div>
 
-					    	<div class="form-group">
-					    		<label>Desa/Kelurahan</label>
-					    		<input type="text" class="form-control" readonly="" :value="usulan_kelurahan.Nm_Kel">
-					    		<!-- <select class="form-control" v-model="usulan.desa" @change="loadDusun()">
-					    			<option v-for="desa in kelompok.kelurahan" :value="desa">{{desa.Kd_Kel == 2 ? 'Desa' : 'Kelurahan'}} {{desa.Nm_Kel}}</option>
-					    		</select> -->
-					    	</div>
+						    	<div class="form-group">
+						    		<label>Desa/Kelurahan</label>
+						    		<input type="text" class="form-control" readonly="" :value="usulan_kelurahan.Nm_Kel">
+						    		<!-- <select class="form-control" v-model="usulan.desa" @change="loadDusun()">
+						    			<option v-for="desa in kelompok.kelurahan" :value="desa">{{desa.Kd_Kel == 2 ? 'Desa' : 'Kelurahan'}} {{desa.Nm_Kel}}</option>
+						    		</select> -->
+						    	</div>
 
-					    	<div class="form-group">
-					    		<label>Dusun/Lingkungan</label>
-					    		<select class="form-control" v-model="usulan_desa.Kd_Lingkungan">
-					    			<option v-for="lingkungan in listLingkungan" :value="lingkungan.Kd_Lingkungan">{{lingkungan.Nm_Lingkungan}}</option>
-					    		</select>
-					    	</div>
+						    	<div class="form-group">
+						    		<label>Dusun/Lingkungan</label>
+						    		<select class="form-control" v-model="usulan_desa.Kd_Lingkungan">
+						    			<option v-for="lingkungan in listLingkungan" :value="lingkungan.Kd_Lingkungan">{{lingkungan.Nm_Lingkungan}}</option>
+						    		</select>
+						    	</div>
 
-					    	<div class="form-group">
-					    		<label>Detail Lokasi</label>
-					    		<textarea class="form-control" v-model="usulan_desa.Detail_Lokasi"></textarea>
-					    	</div>
+						    	<div class="form-group">
+						    		<label>Detail Lokasi</label>
+						    		<textarea class="form-control" v-model="usulan_desa.Detail_Lokasi"></textarea>
+						    	</div>
 
-					    	<div class="form-group">
-					    		<label>Permasalahan</label>
-					    		<textarea class="form-control" v-model="usulan_desa.Nm_Permasalahan"></textarea>
-					    	</div>
+						    	<div class="form-group">
+						    		<label>Permasalahan</label>
+						    		<textarea class="form-control" v-model="usulan_desa.Nm_Permasalahan"></textarea>
+						    	</div>
 
-					    	<div class="form-group">
-					    		<label>Bidang Pembangunan</label>
-					    		<select class="form-control" v-model="usulan_desa.Kd_Pem" @change="loadRpjmdUsulanDesa()">
-					    			<option v-for="bidang_pembangunan in bidPembangunan" :value="bidang_pembangunan.Kd_Pem">{{bidang_pembangunan.Bidang_Pembangunan}}</option>
-					    		</select>
-					    	</div>
+						    	<div class="form-group">
+						    		<label>Bidang Pembangunan</label>
+						    		<select class="form-control" v-model="usulan_desa.Kd_Pem" @change="loadRpjmdUsulanDesa()">
+						    			<option v-for="bidang_pembangunan in bidPembangunan" :value="bidang_pembangunan.Kd_Pem">{{bidang_pembangunan.Bidang_Pembangunan}}</option>
+						    		</select>
+						    	</div>
 
-					    	<div class="form-group">
-					    		<label>Prioritas Pembangunan Daerah</label>
-					    		<select class="form-control" v-model="usulan_desa.Kd_Prioritas_Pembangunan_Daerah">
-					    			<option v-for="prioritas_pembangunan in rpjmd" :value="prioritas_pembangunan.Kd_Prioritas_Pembangunan_Kota">{{prioritas_pembangunan.Nm_Prioritas_Pembangunan_Kota}}</option>
-					    		</select>
+						    	<div class="form-group">
+						    		<label>Prioritas Pembangunan Daerah</label>
+						    		<select class="form-control" v-model="usulan_desa.Kd_Prioritas_Pembangunan_Daerah">
+						    			<option v-for="prioritas_pembangunan in rpjmd" :value="prioritas_pembangunan.Kd_Prioritas_Pembangunan_Kota">{{prioritas_pembangunan.Nm_Prioritas_Pembangunan_Kota}}</option>
+						    		</select>
+						    	</div>
 					    	</div>
 				    	</div>
 				    </div>
@@ -1382,7 +1384,12 @@ export default {
 	    async revisiUsulan(){
 	    	let response = await fetch(window.config.getApiUrl()+'api/revisi-usulan',{
 	    		method:'POST',
-	    		body:JSON.stringify({id:this.id_usulan_desa,token:this.token,usulan:this.usulan_desa})
+	    		body:JSON.stringify({
+	    			id:this.id_usulan_desa,
+	    			token:this.token,
+	    			usulan:this.usulan_desa,
+	    			kamusUsulan:this.kamusUsulan
+	    		})
 	    	})
 
 	    	let data = await response.json()
